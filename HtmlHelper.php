@@ -141,7 +141,14 @@ class HtmlHelper
 
         foreach($options as $key => $value)
         {
-            $return .= ' ' . $key . '="' . $value . '"';
+            if ($value === true)
+            {
+                $return .= ' ' . $key;
+            }
+            else
+            {
+                $return .= ' ' . $key . '="' . $value . '"';
+            }
         }
 
         return $return;
