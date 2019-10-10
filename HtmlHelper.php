@@ -90,7 +90,7 @@ class HtmlHelper
         return $style2;
     }    
 
-    public static function mergeOptions(array $array1, array $array2)
+    public static function mergeAttributes(array $array1, array $array2)
     {
         $args = func_get_args();
 
@@ -100,7 +100,7 @@ class HtmlHelper
         {
             foreach($args as $array)
             {
-                $return = static::mergeOptions($return, $array);
+                $return = static::mergeAttributes($return, $array);
             }
 
             return $return;
@@ -125,7 +125,7 @@ class HtmlHelper
         return $return;
     }
 
-    public static function renderOptions($options) : string
+    public static function renderAttributes($options) : string
     {
         $return = '';
 
