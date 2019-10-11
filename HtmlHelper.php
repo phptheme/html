@@ -158,7 +158,7 @@ class HtmlHelper
     {
         if ($tag)
         {
-            return '<' . $tag . static::renderOptions($options) . '>';
+            return '<' . $tag . static::renderAttributes($options) . '>';
         }
 
         return '';
@@ -187,7 +187,7 @@ class HtmlHelper
 
     public static function shortTag($tag, array $options = [])
     {
-        return '<' . $tag . static::renderOptions($options) . '>';
+        return '<' . $tag . static::renderAttributes($options) . '>';
     }
 
     public static function linkCss($href, array $options = [])

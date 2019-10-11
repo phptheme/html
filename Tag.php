@@ -11,9 +11,9 @@ class Tag
 
     public $tag;
 
-    public $options = [];
+    public $attributes = [];
 
-    public $defaultOptions = [];
+    public $defaultAttributes = [];
 
     public $renderEmpty = true;
 
@@ -30,9 +30,9 @@ class Tag
             return;
         }
 
-        $options = HtmlHelper::mergeOptions($this->defaultOptions, $this->options);
+        $attributes = HtmlHelper::mergeAttributes($this->defaultAttributes, $this->attributes);
 
-        return HtmlHelper::tag($this->tag, $this->content, $options);
+        return HtmlHelper::tag($this->tag, $this->content, $attributes);
     }
 
 }
