@@ -8,45 +8,63 @@ namespace PhpTheme\Html;
 
 use PhpTheme\Helpers\Html;
 
-abstract class BaseTableHeader extends \PhpTheme\Core\Widget
+abstract class BaseTableHeader extends Tag
 {
 
-    public $table; // parent table
+    const ROW = TableRow::class;
+
+    protected $_table;
+
+    public $renderEmpty = false;
 
     public $tag = 'thead';
 
-    public $options = [];
+    public $rows = [];
 
-    public $defaultOptions = [];
+    public $row = [];
 
-    public function run()
+    public $defaultRow = [];
+
+    public function __construct($table)
     {
-        $content = '';
+        parent::__construct();
 
-        $empty = true;
+        $this->_table = $table;
+    }
 
-        foreach($this->table->rowColumns($this->table->defaultRow) as $column)
+    public function getContent()
+    {
+        $return = '';
+
+        foreach($this->rows as $params)
         {
-            $column->row = $this->table->defaultRow;
+            $row = $this->createRow($params);
 
-            if ($column->getHeader())
-            {
-                $empty = false;
-            }
-
-            $content .= $column->renderHeader();
+            $return .= $row->render();
         }
 
-        if ($empty)
+        if ($return)
         {
-            return '';
-        }        
+            $return = PHP_EOL . $return . PHP_EOL;
+        }
 
-        $content = $this->table->renderRow($content);
+        return $return;
+    }
 
-        $options = Html::mergeOptions($this->defaultOptions, $this->options);
+    public function createRow($params)
+    {
+        $options = HtmlHelper::mergeAttributes($this->defaultRow, $this->row, $params);
 
-        return Html::tag($this->tag, $content, $options);
-    }    
+        $class = static::ROW;
+
+        $column = new $class($this->_table);
+
+        foreach($options as $key => $value)
+        {
+            $column->$key = $value;
+        }
+
+        return $column;
+    }
 
 }

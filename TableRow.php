@@ -6,12 +6,6 @@
  */
 namespace PhpTheme\Html;
 
-use PhpTheme\Html\HtmlHelper;
-use Closure;
-
-abstract class BaseTableColumn extends Tag
+class TableRow extends BaseTableRow
 {
-
-    public $tag = 'td';
-
 }

@@ -12,145 +12,165 @@ use Closure;
 abstract class BaseTable extends Tag
 {
 
-    protected $tableRowClass = Tag::class;
+    const HEADER = TableHeader::class;
 
-    protected $tableHeaderClass = TableHeader::class;
+    const FOOTER = TableFooter::class;
 
-    protected $tableFooterClass = TableFooter::class;
+    const BODY = TableBody::class;
 
-    protected $tableBodyClass = TableBody::class;
+    const COLUMN = TableColumn::class;
 
-    protected $tableColumnClass = TableColumn::class;
+    public $renderEmpty = false;
 
-    public $rowOptions = ['tag' => 'tr'];
+    public $column = [];
 
-    public $rows = [];
+    public $defaultColumn = [];
 
-    public $columns = [];
-
-    public $defaultOptions = [];
-
-    public $options = [];
+    public $tag = 'table';
 
     public $header = [];
 
-    public $headerOptions = [];
-
     public $footer = [];
-
-    public $footerOptions = [];
 
     public $body = [];
 
-    public $bodyOptions = [];
+    public $defaultHeader = [
+        'row' => [
+            'tag' => 'th'
+        ]
+    ];
 
-    public $columnOptions = [];
+    public $defaultFooter = [
+        'row' => [
+            'tag' => 'tr'
+        ]
+    ];
 
-    public function renderRow($content)
+    public $defaultBody = [
+        'row' => [
+            'tag' => 'tr'
+        ]
+    ];
+
+    protected $_header;
+
+    protected $_footer;
+
+    protected $_body;
+
+    public function getHeader()
     {
-        $options = HtmlHelper::mergeAttributes($this->rowOptions, ['content' => $content]);
-
-        return $this->theme->widget($this->tableRowClass, $options);
-    }
-
-    public function rowColumns($row)
-    {
-        $columns = $this->columns;
-
-        if ($columns instanceof Closure)
+        if (!$this->_header)
         {
-            $columns = $columns->bindTo($this);
-
-            $columns = $columns($row);
+            $this->_header = $this->createHeader();
         }
 
-        return $columns;
+        return $this->_header;
     }
 
-    protected function renderHeader()
+    public function getFooter()
     {
-        $options = HtmlHelper::mergeAttributes(
-            $this->headerOptions, 
-            $this->header,
-            [
-                'table' => $this
-            ]
-        );
-
-        return $this->theme->widget($this->tableHeaderClass, $options);
-    }
-
-    protected function renderFooter()
-    {
-        $options = HtmlHelper::mergeAttributes(
-            $this->defaultFooterOptions, 
-            $this->footer,
-            [
-                'table' => $this
-            ]
-        ); 
-
-        return $this->theme->widget($this->tableFooterClass, $options);
-    }
-
-    protected function renderBody()
-    {
-        $options = HtmlHelper::mergeAttributes(
-            $this->bodyOptions, 
-            $this->body, 
-            [
-                'table' => $this
-            ]
-        );
-
-        return $this->theme->widget($this->tableBodyClass, $options);
-    }
-
-    public function createColumn($options = [])
-    {
-        $options = HtmlHelper::mergeAttributes($this->columnOptions, $options);
-
-        if (array_key_exists('class', $options))
+        if (!$this->_footer)
         {
-            $class = $options['class'];
+            $this->_footer = $this->createFooter();
+        }
 
-            unset($options['class']);
+        return $this->_footer;
+    }
+
+    public function getBody()
+    {
+        if (!$this->_body)
+        {            
+            $this->_body = $this->createBody();
+        }
+
+        return $this->_body;
+    }
+
+    public function getContent()
+    {
+        $body = $this->createBody();
+
+        $content = $this->getBody()->render();
+
+        $content = $this->getHeader()->render() . $content . $this->getFooter()->render();
+
+        return $content;
+    }
+
+    protected function createBody(array $params = [])
+    {
+        $params = HtmlHelper::mergeAttributes($this->defaultBody, $this->body, $params);
+
+        $class = static::BODY;
+
+        $body = new $class($this);
+
+        foreach($params as $key => $value)
+        {
+            $body->$key = $value;
+        }
+
+        return $body;
+    }
+
+    protected function createHeader(array $params = [])
+    {
+        $params = HtmlHelper::mergeAttributes($this->defaultHeader, $this->header, $params);
+
+        $class = static::HEADER;
+
+        $header = new $class($this);
+
+        foreach($params as $key => $value)
+        {
+            $header->$key = $value;
+        }
+
+        return $header;
+    }
+
+    protected function createFooter(array $params = [])
+    {
+        $params = HtmlHelper::mergeAttributes($this->defaultFooter, $this->footer, $params);
+
+        $class = static::FOOTER;
+
+        $footer = new $class($this);
+
+        foreach($params as $key => $value)
+        {
+            $footer->$key = $value;
+        }
+
+        return $footer;
+    }
+
+    public function createColumn(array $params = [])
+    {
+        $params = HtmlHelper::mergeAttributes($this->defaultColumn, $this->column, $params);
+
+        if (array_key_exists('class', $params))
+        {
+            $class = $params['class'];
+
+            unset($params['class']);
         }
         else
         {
-            $class = $this->tableColumnClass;
+            $class = static::COLUMN;
         }
 
-        return $this->theme->createWidget($class, $options);
-    }
+        $column = new $class($this);
 
-    protected function prepareColumns()
-    {
-        foreach($this->columns as $key => $column)
+        foreach($params as $key => $value)
         {
-            if (is_string($column))
-            {
-                $column = ['content' => $column];
-            }
-
-            if (is_array($column))
-            {
-                $column = $this->createColumn($column);
-            }
-
-            $this->columns[$key] = $column;
+            $column->$key = $value;
         }
+
+        return $column;
     }
 
-    public function run()
-    {
-        $this->prepareColumns();
-
-        $content = $this->renderHeader() . $this->renderBody() . $this->renderFooter();
-
-        $options = HtmlHelper::mergeAttributes($this->defaultOptions, $this->options);
-
-        return Html::tag('table', $content, $options);
-    }
 
 }

@@ -11,9 +11,9 @@ use PhpTheme\Html\HtmlHelper;
 abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 {
 
-    protected $linkClass = Link::class;
+    const LINK = Link::class;
 
-    protected $submenuClass = Menu::class;
+    const SUBMENU = Menu::class;
 
     public $tag = 'li';
 
@@ -104,7 +104,7 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
     {
         $params = HtmlHelper::mergeAttributes($this->defaultLink, $this->link, $params);
 
-        $class = $this->linkClass;
+        $class = static::LINK;
 
         return $class::factory($params);
     }
@@ -113,7 +113,7 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
     {
         $params = HtmlHelper::mergeAttributes($this->defaultSubmenu, $this->submenu, $params);
 
-        $class = $this->submenuClass;
+        $class = static::SUBMENU;
 
         return $class::factory($params);
     }
