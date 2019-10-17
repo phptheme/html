@@ -90,9 +90,9 @@ abstract class BaseTable extends Tag
 
     public function getContent()
     {
-        $body = $this->createBody();
+        $body = $this->getBody();
 
-        $content = $this->getBody()->render();
+        $content = $body->render();
 
         $content = $this->getHeader()->render() . $content . $this->getFooter()->render();
 
