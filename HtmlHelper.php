@@ -1,8 +1,8 @@
 <?php
 /**
  * @author PhpTheme Dev Team
- * @link http://getphptheme.com
  * @license MIT
+ * @link http://getphptheme.com
  */
 namespace PhpTheme\Html;
 
