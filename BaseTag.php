@@ -6,7 +6,7 @@
  */
 namespace PhpTheme\Html;
 
-class Tag
+abstract class BaseTag
 {
 
     public $tag;

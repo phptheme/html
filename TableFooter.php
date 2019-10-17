@@ -6,6 +6,6 @@
  */
 namespace PhpTheme\Html;
 
-class HtmlHelper extends BaseHtmlHelper
+class TableFooter extends BaseTableFooter
 {
 }
