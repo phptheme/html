@@ -36,7 +36,9 @@ abstract class BaseTable extends Tag
 
     public $defaultHeader = [
         'row' => [
-            'tag' => 'th'
+            'column' => [
+                'tag' => 'th'
+            ]
         ]
     ];
 

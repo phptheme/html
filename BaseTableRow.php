@@ -6,14 +6,16 @@
  */
 namespace PhpTheme\Html;
 
-use PhpTheme\Helpers\Html;
-
 abstract class BaseTableRow extends Tag
 {
 
     public $tag = 'tr';
 
     public $columns = [];
+
+    public $column = [];
+
+    public $defaultColumn = [];
 
     protected $_table;
 
@@ -41,13 +43,25 @@ abstract class BaseTableRow extends Tag
                     $params = ['content' => $params];
                 }
 
-                $column = $this->_table->createColumn($params);
+                $column = $this->createColumn($params);
             }
 
             $return .= $column->render();
         }
 
+        if ($return)
+        {
+            $return = PHP_EOL . $return . PHP_EOL;
+        }
+
         return $return;
+    }
+
+    public function createColumn(array $params = [])
+    {
+        $params = HtmlHelper::mergeAttributes($this->defaultColumn, $this->column, $params);
+
+        return $this->_table->createColumn($params);        
     }
 
 }
