@@ -19,6 +19,8 @@ abstract class BaseTableRow extends Tag
 
     protected $_table;
 
+    protected $_columns;
+
     public function __construct($table)
     {
         parent::__construct();
@@ -26,15 +28,20 @@ abstract class BaseTableRow extends Tag
         $this->_table = $table;
     }
 
-    public function getContent()
+    public function getColumns()
     {
-        $return = '';
+        if ($this->_columns !== null)
+        {
+            return $this->_columns;
+        }
+
+        $this->_columns = [];
 
         foreach($this->columns as $params)
         {
             if (is_object($params))
             {
-                $column = $params;
+                $this->_columns[] = $params;
             }
             else
             {
@@ -43,9 +50,19 @@ abstract class BaseTableRow extends Tag
                     $params = ['content' => $params];
                 }
 
-                $column = $this->createColumn($params);
+                $this->_columns[] = $this->createColumn($params);
             }
+        }
 
+        return $this->_columns;
+    }
+
+    public function getContent()
+    {
+        $return = '';
+
+        foreach($this->getColumns() as $column)
+        {
             $return .= $column->render();
         }
 

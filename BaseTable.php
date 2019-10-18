@@ -114,6 +114,8 @@ abstract class BaseTable extends Tag
             $body->$key = $value;
         }
 
+        $body->getRows(); // create rows
+
         return $body;
     }
 
@@ -130,6 +132,8 @@ abstract class BaseTable extends Tag
             $header->$key = $value;
         }
 
+        $header->getRows(); // create rows
+
         return $header;
     }
 
@@ -145,6 +149,8 @@ abstract class BaseTable extends Tag
         {
             $footer->$key = $value;
         }
+
+        $footer->getRows(); // create rows
 
         return $footer;
     }

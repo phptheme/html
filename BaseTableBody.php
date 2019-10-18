@@ -15,6 +15,8 @@ abstract class BaseTableBody extends Tag
 
     protected $_table;
 
+    protected $_rows;
+
     public $tag = 'tbody';
 
     public $rows = [];
@@ -32,14 +34,29 @@ abstract class BaseTableBody extends Tag
         $this->_table = $table;
     }
 
+    public function getRows()
+    {
+        if ($this->_rows !== null)
+        {
+            return $this->_rows;
+        }
+
+        $this->_rows = [];
+
+        foreach($this->rows as $params)
+        {
+            $this->_rows[] = $this->createRow($params);
+        }    
+
+        return $this->_rows;
+    }
+
     public function getContent()
     {
         $return = '';
 
-        foreach($this->rows as $params)
+        foreach($this->getRows() as $row)
         {
-            $row = $this->createRow($params);
-
             $return .= $row->render();
         }
 
@@ -65,36 +82,6 @@ abstract class BaseTableBody extends Tag
         }
 
         return $column;
-    }    
-
-
-    /*
-
-
-
-    public function run()
-    {
-        $content = '';
-
-        foreach($this->table->rows as $row)
-        {
-            $rowContent = '';
-
-            foreach($this->table->rowColumns($row) as $column)
-            {
-                $column->row = $row;
-
-                $rowContent .= $column->run();
-            }
-
-            $content .= $this->table->renderRow($rowContent);
-        }
-
-        $options = HtmlHelper::mergeAttributes($this->defaultOptions, $this->options);
-
-        return HtmlHelper::tag($this->tag, $content, $options);
     }
-    */
-
 
 }
