@@ -17,6 +17,8 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
     public $active; //is active
 
+    public $icon;
+
     public $tag = 'li';
 
     public $activeOptions = [];
@@ -29,22 +31,19 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
     // link
 
-    public $linkOptions = []; // virtual
+    public $linkOptions = [];
 
-    public $link = [];
+    public $defaultLinkOptions = [];
 
-    public $defaultLink = [];
-
-    public $activeLink = [];
+    public $activeLinkOptions = [];
 
     public $linkTag = 'a';
 
     public $activeLinkTag = 'a';
 
-    public $icon;
+    public $linkIconTemplate = '<i class="{icon}"></i>{label}';
 
     // submenu
-
 
     public $defaultSubmenu = [];
 
@@ -63,43 +62,32 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
             return $this->_link;
         }
 
-        $options = [];
-
-        $options['icon'] = $this->icon;
+        $link = [
+            'url' => $this->url,
+            'label' => $this->label,
+            'icon' => $this->icon,
+            'iconTemplate' => $this->linkIconTemplate,
+            'options' => HtmlHelper::mergeAttributes($this->defaultLinkOptions, $this->linkOptions)
+        ];
 
         if ($this->active)
         {
-            $options = HtmlHelper::mergeAttributes($options, $this->activeLink);
+            $link['options'] = HtmlHelper::mergeAttributes($link['options'], $this->activeLinkOptions);
         
-            $options['tag'] = $this->activeLinkTag;
+            $link['tag'] = $this->activeLinkTag;
         }
         else
         {
-            $options['tag'] = $this->linkTag;
+            $link['tag'] = $this->linkTag;
         }
 
-        $options['label'] = $this->label;
-
-        $options['url'] = $this->url;
-
-        $options = HtmlHelper::mergeAttributes(
-            $this->defaultLink, 
-            $options, 
-            $this->link, 
-            [
-                'options' => $this->linkOptions
-            ]
-        );
-
-        $this->_link = $this->createLink($options);
+        $this->_link = $this->createLink($link);
 
         return $this->_link;
     }
 
     protected function createLink(array $options = [])
     {
-        $options = HtmlHelper::mergeAttributes($this->defaultLink, $this->link, $options);
-
         $class = static::LINK;
 
         return $class::factory($options);
