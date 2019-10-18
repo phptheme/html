@@ -11,7 +11,7 @@ use PhpTheme\Helpers\Html;
 abstract class BaseTableHeader extends Tag
 {
 
-    const ROW = TableRow::class;
+    const TABLE_ROW = TableRow::class;
 
     protected $_table;
 
@@ -72,7 +72,7 @@ abstract class BaseTableHeader extends Tag
     {
         $options = HtmlHelper::mergeAttributes($this->defaultRow, $this->row, $params);
 
-        $class = static::ROW;
+        $class = static::TABLE_ROW;
 
         $column = new $class($this->_table);
 

@@ -15,19 +15,11 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
     const SUBMENU = Menu::class;
 
+    public $active; //is active
+
     public $tag = 'li';
 
     public $activeOptions = [];
-
-    public $linkOptions = [];
-
-    public $defaultLinkOptions = [];
-
-    public $activeLinkOptions = [];
-
-    public $linkTag = 'a';
-
-    public $activeLinkTag = 'a';
 
     public $url;
 
@@ -35,11 +27,24 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
     public $activeTag;
 
-    public $active;
+    // link
+
+    public $linkOptions = []; // virtual
+
+    public $link = [];
+
+    public $defaultLink = [];
+
+    public $activeLink = [];
+
+    public $linkTag = 'a';
+
+    public $activeLinkTag = 'a';
 
     public $icon;
 
-    public $iconTemplate = '<i class="{icon}"></i>{label}';
+    // submenu
+
 
     public $defaultSubmenu = [];
 
@@ -47,87 +52,107 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
     public $items = [];
 
-    public $link = []; // new
+    protected $_submenu;
 
-    public $defaultLink = []; // new
+    protected $_link;
 
-    protected function renderLink()
+    public function getLink()
     {
-        $linkOptions = [];
-
-        $linkOptions['icon'] = $this->icon;
-
-        $linkOptions['iconTemplate'] = $this->iconTemplate;
-
-        $linkOptions = HtmlHelper::mergeAttributes($this->defaultLinkOptions, $this->linkOptions, $linkOptions);
-
-        if ($this->active)
+        if ($this->_link !== null)
         {
-            $linkOptions = HtmlHelper::mergeAttributes($linkOptions, $this->activeLinkOptions);
+            return $this->_link;
         }
 
+        $options = [];
+
+        $options['icon'] = $this->icon;
+
         if ($this->active)
         {
-            $linkOptions['tag'] = $this->activeLinkTag;
+            $options = HtmlHelper::mergeAttributes($options, $this->activeLink);
+        
+            $options['tag'] = $this->activeLinkTag;
         }
         else
         {
-            $linkOptions['tag'] = $this->linkTag;
+            $options['tag'] = $this->linkTag;
         }
 
-        $linkOptions['label'] = $this->label;
+        $options['label'] = $this->label;
 
-        $linkOptions['url'] = $this->url;
+        $options['url'] = $this->url;
 
-        $link = $this->createLink($linkOptions);
+        $options = HtmlHelper::mergeAttributes(
+            $this->defaultLink, 
+            $options, 
+            $this->link, 
+            [
+                'options' => $this->linkOptions
+            ]
+        );
 
-        return $link->render();
+        $this->_link = $this->createLink($options);
+
+        return $this->_link;
+    }
+
+    protected function createLink(array $options = [])
+    {
+        $options = HtmlHelper::mergeAttributes($this->defaultLink, $this->link, $options);
+
+        $class = static::LINK;
+
+        return $class::factory($options);
+    }
+
+    protected function createSubmenu(array $options = [])
+    {
+        $options = HtmlHelper::mergeAttributes($this->defaultSubmenu, $this->submenu, $options);
+
+        $class = static::SUBMENU;
+
+        return $class::factory($options);
+    }
+
+    public function getSubmenu()
+    {
+        if ($this->_submenu !== null)
+        {
+            return $this->_submenu;
+        }
+
+        if ($this->items)
+        {
+            $this->_submenu = $this->createSubmenu(['items' => $this->items]);
+        }
+
+        return $this->_submenu;
     }
 
     public function getContent()
     {
-        $options = HtmlHelper::mergeAttributes($this->defaultOptions, $this->options);
+        $content = '';
 
-        if ($this->active)
+        $content .= $this->getLink()->render();
+
+        $submenu = $this->getSubmenu();
+
+        if ($submenu)
         {
-            $options = HtmlHelper::mergeAttributes($options, $this->activeOptions);
+            $content .= $submenu->render();
         }
-
-        $content = $this->renderLink();
-
-        $content .= $this->renderSubmenu();
 
         return $content;
     }
 
-    protected function createLink(array $params = [])
+    public function render()
     {
-        $params = HtmlHelper::mergeAttributes($this->defaultLink, $this->link, $params);
-
-        $class = static::LINK;
-
-        return $class::factory($params);
-    }
-
-    protected function createSubmenu(array $params = [])
-    {
-        $params = HtmlHelper::mergeAttributes($this->defaultSubmenu, $this->submenu, $params);
-
-        $class = static::SUBMENU;
-
-        return $class::factory($params);
-    }
-
-    protected function renderSubmenu()
-    {
-        if (!$this->items)
+        if ($this->active)
         {
-            return '';
+            $this->options = HtmlHelper::mergeAttributes($this->options, $this->activeOptions);
         }
 
-        $submenu = $this->createSubmenu(['items' => $this->items]);
-
-        return $submenu->render();
-    }
+        return parent::render();
+    }    
 
 }

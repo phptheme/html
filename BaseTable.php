@@ -12,13 +12,13 @@ use Closure;
 abstract class BaseTable extends Tag
 {
 
-    const HEADER = TableHeader::class;
+    const TABLE_HEADER = TableHeader::class;
 
-    const FOOTER = TableFooter::class;
+    const TABLE_FOOTER = TableFooter::class;
 
-    const BODY = TableBody::class;
+    const TABLE_BODY = TableBody::class;
 
-    const COLUMN = TableColumn::class;
+    const TABLE_COLUMN = TableColumn::class;
 
     public $renderEmpty = false;
 
@@ -105,7 +105,7 @@ abstract class BaseTable extends Tag
     {
         $params = HtmlHelper::mergeAttributes($this->defaultBody, $this->body, $params);
 
-        $class = static::BODY;
+        $class = static::TABLE_BODY;
 
         $body = new $class($this);
 
@@ -123,7 +123,7 @@ abstract class BaseTable extends Tag
     {
         $params = HtmlHelper::mergeAttributes($this->defaultHeader, $this->header, $params);
 
-        $class = static::HEADER;
+        $class = static::TABLE_HEADER;
 
         $header = new $class($this);
 
@@ -141,7 +141,7 @@ abstract class BaseTable extends Tag
     {
         $params = HtmlHelper::mergeAttributes($this->defaultFooter, $this->footer, $params);
 
-        $class = static::FOOTER;
+        $class = static::TABLE_FOOTER;
 
         $footer = new $class($this);
 
@@ -167,7 +167,7 @@ abstract class BaseTable extends Tag
         }
         else
         {
-            $class = static::COLUMN;
+            $class = static::TABLE_COLUMN;
         }
 
         $column = new $class($this);

@@ -11,7 +11,7 @@ use PhpTheme\Html\HtmlHelper;
 abstract class BaseMenu extends \PhpTheme\Html\Tag
 {
 
-    protected $menuItemClass = MenuItem::class;
+    const MENU_ITEM = MenuItem::class;
 
     public $items = [];
 
@@ -20,6 +20,8 @@ abstract class BaseMenu extends \PhpTheme\Html\Tag
     public $defaultItem = [];
 
     public $renderEmpty = false;
+
+    protected $_items;
 
     protected function createItem(array $params = [])
     {
@@ -30,7 +32,7 @@ abstract class BaseMenu extends \PhpTheme\Html\Tag
 
         $params = HtmlHelper::mergeAttributes($this->defaultItem, $this->item, $params);
 
-        $class = $this->menuItemClass;
+        $class = static::MENU_ITEM;
 
         return $class::factory($params);
     }
@@ -56,19 +58,26 @@ abstract class BaseMenu extends \PhpTheme\Html\Tag
         return false;
     }
 
+    public function getItems()
+    {
+        if ($this->_items !== null)
+        {
+            return $this->_items;
+        }
+
+        $this->_items = [];
+
+        foreach($this->items as $key => $params)
+        {
+            $this->_items[$key] = $this->createItem($params);
+        }
+
+        return $this->_items;
+    }
+
     public function getContent()
     {
-        $items = [];
-
-        foreach($this->items as $key => $item)
-        {
-            $items[$key] = $this->createItem($item);
-        }
-
-        if (!$this->renderEmpty && !$items)
-        {
-            return '';
-        }
+        $items = $this->getItems();
 
         $content = '';
 
