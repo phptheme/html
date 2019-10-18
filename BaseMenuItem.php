@@ -41,7 +41,7 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
     public $activeLinkTag = 'a';
 
-    public $linkIconTemplate = '<i class="{icon}"></i>{label}';
+    public $linkIconTemplate = null;
 
     // submenu
 
@@ -66,9 +66,13 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
             'url' => $this->url,
             'label' => $this->label,
             'icon' => $this->icon,
-            'iconTemplate' => $this->linkIconTemplate,
             'options' => HtmlHelper::mergeAttributes($this->defaultLinkOptions, $this->linkOptions)
         ];
+
+        if ($this->linkIconTemplate)
+        {
+            $link['iconTemplate'] = $this->linkIconTemplate;
+        }
 
         if ($this->active)
         {
