@@ -180,5 +180,4 @@ abstract class BaseTable extends Tag
         return $column;
     }
 
-
 }

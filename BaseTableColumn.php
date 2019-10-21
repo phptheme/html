@@ -12,6 +12,15 @@ use Closure;
 abstract class BaseTableColumn extends Tag
 {
 
+    public $table;
+
     public $tag = 'td';
+
+    public function __construct(Table $table)
+    {
+        parent::__construct();
+
+        $this->table = $table;
+    }
 
 }
