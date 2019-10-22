@@ -33,21 +33,11 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
     public $linkOptions = [];
 
-    public $defaultLinkOptions = [];
-
     public $activeLinkOptions = [];
-
-    public $linkTag = 'a';
-
-    public $activeLinkTag = 'a';
-
-    public $linkIconTemplate = null;
 
     // submenu
 
-    public $defaultSubmenu = [];
-
-    public $submenu = [];
+    public $submenuOptions = [];
 
     public $items = [];
 
@@ -62,29 +52,6 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
             return $this->_link;
         }
 
-        $link = [
-            'url' => $this->url,
-            'label' => $this->label,
-            'icon' => $this->icon,
-            'options' => HtmlHelper::mergeOptions($this->defaultLinkOptions, $this->linkOptions)
-        ];
-
-        if ($this->linkIconTemplate)
-        {
-            $link['iconTemplate'] = $this->linkIconTemplate;
-        }
-
-        if ($this->active)
-        {
-            $link['options'] = HtmlHelper::mergeOptions($link['options'], $this->activeLinkOptions);
-        
-            $link['tag'] = $this->activeLinkTag;
-        }
-        else
-        {
-            $link['tag'] = $this->linkTag;
-        }
-
         $this->_link = $this->createLink($link);
 
         return $this->_link;
@@ -92,6 +59,25 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
     protected function createLink(array $options = [])
     {
+        $linkOptions = [
+            'url' => $this->url,
+            'label' => $this->label
+        ];
+
+        if ($this->icon)
+        {
+            $linkOptions['icon'] = $this->icon;
+        }
+
+        $linkOptions = HtmlHelper::mergeOptions($linkOptions, $this->linkOptions);
+
+        if ($this->active)
+        {
+            $linkOptions = HtmlHelper::mergeOptions($this->activeLinkOptions);
+        }
+
+        $linkOptions = HtmlHelper::mergeOptions($linkOptions, $options);
+
         $class = static::LINK;
 
         return $class::factory($options);
@@ -99,7 +85,7 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
     protected function createSubmenu(array $options = [])
     {
-        $options = HtmlHelper::mergeOptions($this->defaultSubmenu, $this->submenu, $options);
+        $options = HtmlHelper::mergeOptions($this->submenuOptions, $options);
 
         $class = static::SUBMENU;
 

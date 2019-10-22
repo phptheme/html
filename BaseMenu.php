@@ -15,26 +15,24 @@ abstract class BaseMenu extends \PhpTheme\Html\Tag
 
     public $items = [];
 
-    public $item = [];
-
-    public $defaultItem = [];
+    public $itemOptions = [];
 
     public $renderEmpty = false;
 
     protected $_items;
 
-    protected function createItem(array $params = [])
+    protected function createItem(array $options = [])
     {
-        if ($this->itemIsActive($params))
+        if ($this->itemIsActive($options))
         {
-            $params['active'] = true;
+            $options['active'] = true;
         }
 
-        $params = HtmlHelper::mergeOptions($this->defaultItem, $this->item, $params);
+        $options = HtmlHelper::mergeOptions($this->itemOptions, $options);
 
         $class = static::MENU_ITEM;
 
-        return $class::factory($params);
+        return $class::factory($options);
     }
 
     protected function itemIsActive($item)
@@ -67,9 +65,9 @@ abstract class BaseMenu extends \PhpTheme\Html\Tag
 
         $this->_items = [];
 
-        foreach($this->items as $key => $params)
+        foreach($this->items as $key => $options)
         {
-            $this->_items[$key] = $this->createItem($params);
+            $this->_items[$key] = $this->createItem($options);
         }
 
         return $this->_items;

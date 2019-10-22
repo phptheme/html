@@ -22,34 +22,26 @@ abstract class BaseTable extends Tag
 
     public $renderEmpty = false;
 
-    public $column = [];
-
-    public $defaultColumn = [];
+    public $columnOptions = [];
 
     public $tag = 'table';
 
-    public $header = [];
-
-    public $footer = [];
-
-    public $body = [];
-
     public $defaultHeader = [
-        'row' => [
-            'column' => [
+        'rowOptions' => [
+            'columnOptions' => [
                 'tag' => 'th'
             ]
         ]
     ];
 
-    public $defaultFooter = [
-        'row' => [
+    public $footerOptions = [
+        'rowOptions' => [
             'tag' => 'tr'
         ]
     ];
 
-    public $defaultBody = [
-        'row' => [
+    public $bodyOptions = [
+        'rowOptions' => [
             'tag' => 'tr'
         ]
     ];
@@ -101,9 +93,9 @@ abstract class BaseTable extends Tag
         return $content;
     }
 
-    protected function createBody(array $params = [])
+    protected function createBody(array $options = [])
     {
-        $params = HtmlHelper::mergeOptions($this->defaultBody, $this->body, $params);
+        $options = HtmlHelper::mergeOptions($this->bodyOptions, $options);
 
         $class = static::TABLE_BODY;
 
@@ -119,9 +111,9 @@ abstract class BaseTable extends Tag
         return $body;
     }
 
-    protected function createHeader(array $params = [])
+    protected function createHeader(array $options = [])
     {
-        $params = HtmlHelper::mergeOptions($this->defaultHeader, $this->header, $params);
+        $params = HtmlHelper::mergeOptions($this->headerOptions, $options);
 
         $class = static::TABLE_HEADER;
 
@@ -137,9 +129,9 @@ abstract class BaseTable extends Tag
         return $header;
     }
 
-    protected function createFooter(array $params = [])
+    protected function createFooter(array $options = [])
     {
-        $params = HtmlHelper::mergeOptions($this->defaultFooter, $this->footer, $params);
+        $options = HtmlHelper::mergeOptions($this->footerOptions, $options);
 
         $class = static::TABLE_FOOTER;
 
@@ -155,15 +147,15 @@ abstract class BaseTable extends Tag
         return $footer;
     }
 
-    public function createColumn(array $params = [])
+    public function createColumn(array $options = [])
     {
-        $params = HtmlHelper::mergeOptions($this->defaultColumn, $this->column, $params);
+        $options = HtmlHelper::mergeOptions($this->columnOptions, $options);
 
-        if (array_key_exists('class', $params))
+        if (array_key_exists('class', $options))
         {
-            $class = $params['class'];
+            $class = $options['class'];
 
-            unset($params['class']);
+            unset($options['class']);
         }
         else
         {
@@ -172,7 +164,7 @@ abstract class BaseTable extends Tag
 
         $column = new $class($this);
 
-        foreach($params as $key => $value)
+        foreach($options as $key => $value)
         {
             $column->$key = $value;
         }

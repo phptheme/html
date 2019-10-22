@@ -134,7 +134,7 @@ abstract class BaseHtmlHelper
             $attributes['class'] = implode(' ', $attributes['class']);
         }
 
-        if (array_key_exists('style', $options) && is_array($attributes['style']))
+        if (array_key_exists('style', $attributes) && is_array($attributes['style']))
         {
             $attributes['style'] = static::implodeStyle($attributes['style']);
         }
@@ -154,11 +154,11 @@ abstract class BaseHtmlHelper
         return $return;
     }
 
-    public static function beginTag($tag, array $options = [])
+    public static function beginTag($tag, array $attributes = [])
     {
         if ($tag)
         {
-            return '<' . $tag . static::renderAttributes($options) . '>';
+            return '<' . $tag . static::renderAttributes($attributes) . '>';
         }
 
         return '';
@@ -174,9 +174,9 @@ abstract class BaseHtmlHelper
         return '';
     }
 
-    public static function tag($tag, $content, array $options = [])
+    public static function tag($tag, $content, array $attributes = [])
     {
-        $return = static::beginTag($tag, $options);
+        $return = static::beginTag($tag, $attributes);
 
         $return .= $content;
 
@@ -185,32 +185,32 @@ abstract class BaseHtmlHelper
         return $return;
     }
 
-    public static function shortTag($tag, array $options = [])
+    public static function shortTag($tag, array $attributes = [])
     {
-        return '<' . $tag . static::renderAttributes($options) . '>';
+        return '<' . $tag . static::renderAttributes($attributes) . '>';
     }
 
-    public static function linkCss($href, array $options = [])
+    public static function linkCss($href, array $attributes = [])
     {
-        $options['rel'] = 'stylesheet';
+        $attributes['rel'] = 'stylesheet';
 
-        $options['type'] = 'text/css';
+        $attributes['type'] = 'text/css';
 
-        if (!array_key_exists('media', $options))
+        if (!array_key_exists('media', $attributes))
         {
-            $options['media'] = 'screen';
+            $attributes['media'] = 'screen';
         }
 
-        $options['href'] = $href;
+        $attributes['href'] = $href;
 
-        return static::shortTag('link', $options);
+        return static::shortTag('link', $attributes);
     }
 
-    public static function scriptFile($url, array $params = [])
+    public static function scriptFile($url, array $attributes = [])
     {
-        $params['src'] = $url;
+        $attributes['src'] = $url;
 
-        return static::tag('script', '', $params);
+        return static::tag('script', '', $attributes);
     }
 
 }
