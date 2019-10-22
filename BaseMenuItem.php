@@ -52,7 +52,7 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
             return $this->_link;
         }
 
-        $this->_link = $this->createLink($link);
+        $this->_link = $this->createLink();
 
         return $this->_link;
     }
@@ -73,14 +73,14 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
         if ($this->active)
         {
-            $linkOptions = HtmlHelper::mergeOptions($this->activeLinkOptions);
+            $linkOptions = HtmlHelper::mergeOptions($linkOptions, $this->activeLinkOptions);
         }
 
         $linkOptions = HtmlHelper::mergeOptions($linkOptions, $options);
 
         $class = static::LINK;
 
-        return $class::factory($options);
+        return $class::factory($linkOptions);
     }
 
     protected function createSubmenu(array $options = [])

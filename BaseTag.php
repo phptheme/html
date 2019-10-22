@@ -49,7 +49,7 @@ abstract class BaseTag
             return;
         }
 
-        return HtmlHelper::tag($this->tag, $content, $options);
+        return HtmlHelper::tag($this->tag, $content, $this->options);
     }
 
 }
