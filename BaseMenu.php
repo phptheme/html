@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2018-2019 PhpTheme Dev Team
+ * @author PhpTheme Dev Team <dev@getphptheme.com>
+ * @license MIT
  * @link http://getphptheme.com
- * @license MIT License
  */
 namespace PhpTheme\Html;
 
@@ -30,7 +30,7 @@ abstract class BaseMenu extends \PhpTheme\Html\Tag
             $params['active'] = true;
         }
 
-        $params = HtmlHelper::mergeAttributes($this->defaultItem, $this->item, $params);
+        $params = HtmlHelper::mergeOptions($this->defaultItem, $this->item, $params);
 
         $class = static::MENU_ITEM;
 

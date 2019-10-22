@@ -1,6 +1,6 @@
 <?php
 /**
- * @author PhpTheme Dev Team
+ * @author PhpTheme Dev Team <dev@getphptheme.com>
  * @license MIT
  * @link http://getphptheme.com
  */
@@ -90,7 +90,7 @@ abstract class BaseHtmlHelper
         return $style2;
     }    
 
-    public static function mergeAttributes(array $array1, array $array2)
+    public static function mergeOptions(array $array1, array $array2)
     {
         $args = func_get_args();
 
@@ -100,7 +100,7 @@ abstract class BaseHtmlHelper
         {
             foreach($args as $array)
             {
-                $return = static::mergeAttributes($return, $array);
+                $return = static::mergeOptions($return, $array);
             }
 
             return $return;
@@ -125,21 +125,21 @@ abstract class BaseHtmlHelper
         return $return;
     }
 
-    public static function renderAttributes($options) : string
+    public static function renderAttributes($attributes) : string
     {
         $return = '';
 
-        if (array_key_exists('class', $options) && is_array($options['class']))
+        if (array_key_exists('class', $attributes) && is_array($attributes['class']))
         {
-            $options['class'] = implode(' ', $options['class']);
+            $attributes['class'] = implode(' ', $attributes['class']);
         }
 
-        if (array_key_exists('style', $options) && is_array($options['style']))
+        if (array_key_exists('style', $options) && is_array($attributes['style']))
         {
-            $options['style'] = static::implodeStyle($options['style']);
+            $attributes['style'] = static::implodeStyle($attributes['style']);
         }
 
-        foreach($options as $key => $value)
+        foreach($attributes as $key => $value)
         {
             if ($value === true)
             {

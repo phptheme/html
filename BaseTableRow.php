@@ -1,6 +1,6 @@
 <?php
 /**
- * @author PhpTheme Dev Team
+ * @author PhpTheme Dev Team <dev@getphptheme.com>
  * @license MIT
  * @link http://getphptheme.com
  */
@@ -13,9 +13,7 @@ abstract class BaseTableRow extends Tag
 
     public $columns = [];
 
-    public $column = [];
-
-    public $defaultColumn = [];
+    public $columnOptions = [];
 
     protected $_table;
 
@@ -74,11 +72,11 @@ abstract class BaseTableRow extends Tag
         return $return;
     }
 
-    public function createColumn(array $params = [])
+    public function createColumn(array $options = [])
     {
-        $params = HtmlHelper::mergeAttributes($this->defaultColumn, $this->column, $params);
+        $params = HtmlHelper::mergeOptions($this->columnOptions, $options);
 
-        return $this->_table->createColumn($params);        
+        return $this->_table->createColumn($options);        
     }
 
 }

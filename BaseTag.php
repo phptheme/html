@@ -1,6 +1,6 @@
 <?php
 /**
- * @author PhpTheme Dev Team
+ * @author PhpTheme Dev Team <dev@getphptheme.com>
  * @license MIT
  * @link http://getphptheme.com
  */
@@ -12,8 +12,6 @@ abstract class BaseTag
     public $tag;
 
     public $options = [];
-
-    public $defaultOptions = [];
 
     public $renderEmpty = true;
 
@@ -50,8 +48,6 @@ abstract class BaseTag
         {
             return;
         }
-
-        $options = HtmlHelper::mergeAttributes($this->defaultOptions, $this->options);
 
         return HtmlHelper::tag($this->tag, $content, $options);
     }

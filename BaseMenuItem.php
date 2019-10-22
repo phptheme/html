@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2018-2019 PhpTheme Dev Team
+ * @author PhpTheme Dev Team <dev@getphptheme.com>
+ * @license MIT
  * @link http://getphptheme.com
- * @license MIT License
  */
 namespace PhpTheme\Html;
 
@@ -66,7 +66,7 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
             'url' => $this->url,
             'label' => $this->label,
             'icon' => $this->icon,
-            'options' => HtmlHelper::mergeAttributes($this->defaultLinkOptions, $this->linkOptions)
+            'options' => HtmlHelper::mergeOptions($this->defaultLinkOptions, $this->linkOptions)
         ];
 
         if ($this->linkIconTemplate)
@@ -76,7 +76,7 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
         if ($this->active)
         {
-            $link['options'] = HtmlHelper::mergeAttributes($link['options'], $this->activeLinkOptions);
+            $link['options'] = HtmlHelper::mergeOptions($link['options'], $this->activeLinkOptions);
         
             $link['tag'] = $this->activeLinkTag;
         }
@@ -99,7 +99,7 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
     protected function createSubmenu(array $options = [])
     {
-        $options = HtmlHelper::mergeAttributes($this->defaultSubmenu, $this->submenu, $options);
+        $options = HtmlHelper::mergeOptions($this->defaultSubmenu, $this->submenu, $options);
 
         $class = static::SUBMENU;
 
@@ -141,7 +141,7 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
     {
         if ($this->active)
         {
-            $this->options = HtmlHelper::mergeAttributes($this->options, $this->activeOptions);
+            $this->options = HtmlHelper::mergeOptions($this->options, $this->activeOptions);
         }
 
         return parent::render();

@@ -1,6 +1,6 @@
 <?php
 /**
- * @author PhpTheme Dev Team
+ * @author PhpTheme Dev Team <dev@getphptheme.com>
  * @license MIT
  * @link http://getphptheme.com
  */
@@ -103,7 +103,7 @@ abstract class BaseTable extends Tag
 
     protected function createBody(array $params = [])
     {
-        $params = HtmlHelper::mergeAttributes($this->defaultBody, $this->body, $params);
+        $params = HtmlHelper::mergeOptions($this->defaultBody, $this->body, $params);
 
         $class = static::TABLE_BODY;
 
@@ -121,7 +121,7 @@ abstract class BaseTable extends Tag
 
     protected function createHeader(array $params = [])
     {
-        $params = HtmlHelper::mergeAttributes($this->defaultHeader, $this->header, $params);
+        $params = HtmlHelper::mergeOptions($this->defaultHeader, $this->header, $params);
 
         $class = static::TABLE_HEADER;
 
@@ -139,7 +139,7 @@ abstract class BaseTable extends Tag
 
     protected function createFooter(array $params = [])
     {
-        $params = HtmlHelper::mergeAttributes($this->defaultFooter, $this->footer, $params);
+        $params = HtmlHelper::mergeOptions($this->defaultFooter, $this->footer, $params);
 
         $class = static::TABLE_FOOTER;
 
@@ -157,7 +157,7 @@ abstract class BaseTable extends Tag
 
     public function createColumn(array $params = [])
     {
-        $params = HtmlHelper::mergeAttributes($this->defaultColumn, $this->column, $params);
+        $params = HtmlHelper::mergeOptions($this->defaultColumn, $this->column, $params);
 
         if (array_key_exists('class', $params))
         {

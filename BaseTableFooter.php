@@ -1,6 +1,6 @@
 <?php
 /**
- * @author PhpTheme Dev Team
+ * @author PhpTheme Dev Team <dev@getphptheme.com>
  * @license MIT
  * @link http://getphptheme.com
  */
@@ -21,9 +21,7 @@ abstract class BaseTableFooter extends Tag
 
     public $rows = [];
 
-    public $row = [];
-
-    public $defaultRow = [];
+    public $rowOptions = [];
 
     public $renderEmpty = false;
 
@@ -70,18 +68,18 @@ abstract class BaseTableFooter extends Tag
 
     public function createRow($params)
     {
-        $options = HtmlHelper::mergeAttributes($this->defaultRow, $this->row, $params);
+        $options = HtmlHelper::mergeOptions($this->rowOptions, $params);
 
         $class = static::TABLE_ROW;
 
-        $column = new $class($this->_table);
+        $row = new $class($this->_table);
 
         foreach($options as $key => $value)
         {
-            $column->$key = $value;
+            $row->$key = $value;
         }
 
-        return $column;
+        return $row;
     }
 
 }
