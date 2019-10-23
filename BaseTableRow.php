@@ -74,9 +74,9 @@ abstract class BaseTableRow extends Tag
 
     public function createColumn(array $options = [])
     {
-        $params = HtmlHelper::mergeOptions($this->columnOptions, $options);
+        $options = HtmlHelper::mergeOptions($this->columnOptions, $options);
 
-        return $this->_table->createColumn($options);        
+        return $this->_table->createColumn($options);
     }
 
 }

@@ -88,7 +88,11 @@ abstract class BaseTable extends Tag
 
         $content = $body->render();
 
-        $content = $this->getHeader()->render() . $content . $this->getFooter()->render();
+        $header = $this->getHeader()->render();
+
+        $footer = $this->getFooter()->render();
+
+        $content = $header . $content . $footer;
 
         return $content;
     }
@@ -137,7 +141,7 @@ abstract class BaseTable extends Tag
 
         $footer = new $class($this);
 
-        foreach($params as $key => $value)
+        foreach($options as $key => $value)
         {
             $footer->$key = $value;
         }

@@ -19,6 +19,8 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
     public $icon;
 
+    public $iconTemplate;
+
     public $tag = 'li';
 
     public $activeAttributes = [];
@@ -31,7 +33,9 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
     // link
 
-    public $linkOptions = [];
+    public $linkAttributes = [];
+
+    public $linkTag = 'a';
 
     public $activeLinkAttributes = [];
 
@@ -63,7 +67,8 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
     {
         $linkOptions = [
             'url' => $this->url,
-            'label' => $this->label
+            'label' => $this->label,
+            'tag' => $this->linkTag
         ];
 
         if ($this->icon)
@@ -71,7 +76,12 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
             $linkOptions['icon'] = $this->icon;
         }
 
-        $linkOptions = HtmlHelper::mergeOptions($linkOptions, $this->linkOptions);
+        if ($this->iconTemplate)
+        {
+            $linkOptions['iconTemplate'] = $this->iconTemplate;
+        }
+
+        $linkOptions = HtmlHelper::mergeOptions($linkOptions, ['attributes' => $this->linkAttributes]);
 
         if ($this->active)
         {

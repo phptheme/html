@@ -68,7 +68,15 @@ abstract class BaseTableHeader extends Tag
 
     public function createRow($options)
     {
+
         $options = HtmlHelper::mergeOptions($this->rowOptions, $options);
+
+
+            //echo '<pre>';
+
+            //print_r($options);
+
+            ///die;
 
         $class = static::TABLE_ROW;
 
