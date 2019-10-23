@@ -90,7 +90,7 @@ abstract class BaseHtmlHelper
         return $style2;
     }    
 
-    public static function mergeOptions(array $array1, array $array2)
+    public static function mergeAttributes(array $array1, array $array2)
     {
         $args = func_get_args();
 
@@ -100,7 +100,7 @@ abstract class BaseHtmlHelper
         {
             foreach($args as $array)
             {
-                $return = static::mergeOptions($return, $array);
+                $return = static::mergeAttributes($return, $array);
             }
 
             return $return;
