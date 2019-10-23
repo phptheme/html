@@ -125,6 +125,37 @@ abstract class BaseHtmlHelper
         return $return;
     }
 
+    public static function mergeOptions(array $array1, array $array2)
+    {
+        $args = func_get_args();
+
+        $return = array_shift($args);
+
+        if (count($args) > 1)
+        {
+            foreach($args as $array)
+            {
+                $return = static::mergeOptions($return, $array);
+            }
+
+            return $return;
+        }
+
+        foreach($array2 as $key => $value)
+        {
+            if (($key == 'attributes') && array_key_exists($key, $return))
+            {
+                $return[$key] = static::mergeAttributes($return[$key], $value);
+            }
+            else
+            {
+                $return[$key] = $value;
+            }
+        }
+
+        return $return;
+    }
+
     public static function renderAttributes($attributes) : string
     {
         $return = '';

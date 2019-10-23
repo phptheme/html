@@ -11,7 +11,7 @@ abstract class BaseTag
 
     public $tag;
 
-    public $options = [];
+    public $attributes = [];
 
     public $renderEmpty = true;
 
@@ -49,7 +49,7 @@ abstract class BaseTag
             return;
         }
 
-        return HtmlHelper::tag($this->tag, $content, $this->options);
+        return HtmlHelper::tag($this->tag, $content, $this->attributes);
     }
 
 }

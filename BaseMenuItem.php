@@ -21,7 +21,7 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
     public $tag = 'li';
 
-    public $activeOptions = [];
+    public $activeAttributes = [];
 
     public $url;
 
@@ -33,7 +33,9 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
     public $linkOptions = [];
 
-    public $activeLinkOptions = [];
+    public $activeLinkAttributes = [];
+
+    public $activeLinkTag;
 
     // submenu
 
@@ -73,7 +75,12 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
 
         if ($this->active)
         {
-            $linkOptions = HtmlHelper::mergeOptions($linkOptions, $this->activeLinkOptions);
+            $linkOptions = HtmlHelper::mergeOptions($linkOptions, ['attributes' => $this->activeLinkAttributes]);
+
+            if ($this->activeLinkTag)
+            {
+                $linkOptions['tag'] = $this->activeLinkTag;
+            }
         }
 
         $linkOptions = HtmlHelper::mergeOptions($linkOptions, $options);
@@ -127,7 +134,12 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
     {
         if ($this->active)
         {
-            $this->options = HtmlHelper::mergeOptions($this->options, $this->activeOptions);
+            $this->attributes = HtmlHelper::mergeAttributes($this->attributes, $this->activeAttributes);
+
+            if ($this->activeTag)
+            {
+                $this->tag = $this->activeTag;
+            }
         }
 
         return parent::render();

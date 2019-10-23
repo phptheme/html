@@ -40,7 +40,7 @@ abstract class BaseLink extends Tag
     {
         if (($this->url) && ($this->tag == 'a'))
         {
-            $this->options['href'] = $this->url;
+            $this->attributes['href'] = $this->url;
         }
 
         return parent::render();
