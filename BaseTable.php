@@ -26,7 +26,7 @@ abstract class BaseTable extends Tag
 
     public $tag = 'table';
 
-    public $defaultHeader = [
+    public $headerOptions = [
         'rowOptions' => [
             'columnOptions' => [
                 'tag' => 'th'
@@ -101,7 +101,7 @@ abstract class BaseTable extends Tag
 
         $body = new $class($this);
 
-        foreach($params as $key => $value)
+        foreach($options as $key => $value)
         {
             $body->$key = $value;
         }
