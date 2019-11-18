@@ -36,14 +36,14 @@ abstract class BaseLink extends Tag
         return $return;
     }
 
-    public function render()
+    public function toString() : string
     {
         if (($this->url) && ($this->tag == 'a'))
         {
             $this->attributes['href'] = $this->url;
         }
 
-        return parent::render();
+        return parent::toString();
     }
 
 }

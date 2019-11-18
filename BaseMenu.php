@@ -81,7 +81,7 @@ abstract class BaseMenu extends \PhpTheme\Html\Tag
 
         foreach($items as $item)
         {
-            $content .= $item->render();
+            $content .= $item->toString();
         }
 
         return $content;

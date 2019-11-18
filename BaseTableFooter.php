@@ -55,7 +55,7 @@ abstract class BaseTableFooter extends Tag
 
         foreach($this->getRows() as $row)
         {
-            $return .= $row->render();
+            $return .= $row->toString();
         }
 
         if ($return)

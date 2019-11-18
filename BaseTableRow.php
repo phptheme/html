@@ -61,7 +61,7 @@ abstract class BaseTableRow extends Tag
 
         foreach($this->getColumns() as $column)
         {
-            $return .= $column->render();
+            $return .= $column->toString();
         }
 
         if ($return)

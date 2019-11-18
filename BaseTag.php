@@ -9,6 +9,8 @@ namespace PhpTheme\Html;
 abstract class BaseTag
 {
 
+    use FactoryTrait;
+
     public $tag;
 
     public $attributes = [];
@@ -21,35 +23,26 @@ abstract class BaseTag
     {
     }
 
-    public static function factory(array $params = [])
-    {
-        $class = get_called_class();
-
-        $return = new $class;
-
-        foreach($params as $key => $value)
-        {
-            $return->$key = $value;
-        }
-
-        return $return;
-    }
-
     public function getContent()
     {
         return $this->content;
     }
 
-    public function render()
+    public function toString() : string
     {
         $content = $this->getContent();
 
         if (!$content && !$this->renderEmpty)
         {
-            return;
+            return '';
         }
 
-        return HtmlHelper::tag($this->tag, $content, $this->attributes);
+        return HtmlHelper::tag($this->tag, $content, $this->attributes);        
+    }
+
+    public function __toString()
+    {
+        return $this->toString();
     }
 
 }

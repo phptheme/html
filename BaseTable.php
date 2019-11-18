@@ -86,11 +86,11 @@ abstract class BaseTable extends Tag
     {
         $body = $this->getBody();
 
-        $content = $body->render();
+        $content = $body->toString();
 
-        $header = $this->getHeader()->render();
+        $header = $this->getHeader()->toString();
 
-        $footer = $this->getFooter()->render();
+        $footer = $this->getFooter()->toString();
 
         $content = $header . $content . $footer;
 

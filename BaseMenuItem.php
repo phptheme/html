@@ -128,19 +128,19 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
     {
         $content = '';
 
-        $content .= $this->getLink()->render();
+        $content .= $this->getLink()->toString();
 
         $submenu = $this->getSubmenu();
 
         if ($submenu)
         {
-            $content .= $submenu->render();
+            $content .= $submenu->toString();
         }
 
         return $content;
     }
 
-    public function render()
+    public function toString() : string
     {
         if ($this->active)
         {
@@ -152,7 +152,7 @@ abstract class BaseMenuItem extends \PhpTheme\Html\Tag
             }
         }
 
-        return parent::render();
+        return parent::toString();
     }    
 
 }
