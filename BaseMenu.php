@@ -13,6 +13,8 @@ abstract class BaseMenu extends \PhpTheme\Html\Tag
 
     const MENU_ITEM = MenuItem::class;
 
+    public $tag = 'ul';
+
     public $items = [];
 
     public $itemOptions = [];
