@@ -23,7 +23,7 @@ abstract class BaseMenu extends \PhpTheme\Html\Tag
 
     protected $_items;
 
-    protected function createItem(array $options = [])
+    protected function createItem($options = [])
     {
         if ($this->itemIsActive($options))
         {
