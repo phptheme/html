@@ -9,8 +9,6 @@ namespace PhpTheme\Html;
 abstract class BaseTag
 {
 
-    use FactoryTrait;
-
     public $tag;
 
     public $attributes = [];
@@ -19,8 +17,12 @@ abstract class BaseTag
 
     public $content;
 
-    public function __construct()
+    public function __construct(array $params = [])
     {
+        foreach($params as $key => $value)
+        {
+            $this->$key = $value;
+        }
     }
 
     public function getContent()
